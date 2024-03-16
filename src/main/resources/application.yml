@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: app
     hikari:
-      password: app123!@#
+      password: wally5350
     batch:
       url: "jdbc:mysql://localhost:3306/delivery_batch?useSSL=false&allowPublicKeyRetrieval=true"
       username: batch

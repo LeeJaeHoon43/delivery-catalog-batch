@@ -55,11 +55,10 @@ class ExcelJobConfiguration(
                 logger.info { ">>> excelStep 실행, 엑셀 처리" }
 
                 // 엑셀 파일, 워크북, 시트 얻기
-                val file = File(filePath)
-                val fileInputStream = FileInputStream(file)
+                val file = filePath?.let { File(it) }
+                val fileInputStream = file?.let { FileInputStream(it) }
                 val workbook = XSSFWorkbook(fileInputStream)
                 val sheet = workbook.getSheetAt(0)
-
                 val menus = sheet.filterIndexed { index, _ ->
                     index != 0
                 }.mapIndexed { index, row ->
@@ -71,8 +70,8 @@ class ExcelJobConfiguration(
                     val description = row.getCell(5).stringCellValue
 
                     logger.info { ">>> row ($index), col = $storeId, $menuId, $menuName, $menuImageUrl, $price, $description" }
-                    val menuOptional = menuId?.let { this.menuRepository.findById(it) }
-                    if (menuOptional == null || menuOptional.isEmpty) {
+                    val menuOptional = menuId.let { this.menuRepository.findById(it) }
+                    if (menuOptional.isEmpty) {
                         Menu(
                             storeId = storeId,
                             menuId = menuId ?: 0L,
